@@ -1,0 +1,68 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<link rel="import" href="bower_components/vaadin-button/vaadin-button.html">
+<script type="text/javascript" src="bluetooth-printer.js"></script>
+<script type="text/javascript" src="bundle.js"></script>
+
+<dom-module id="bluetooth-printer">
+	<template>
+		<style>
+		/* CSS rules for your element */
+		</style>
+		
+		<!-- shadow DOM for your element -->
+		<vaadin-button on-click="connect">Connect</vaadin-button>
+		<!-- data bindings in local DOM -->
+	</template>
+	<script>
+		class BluetoothPrinter extends Polymer.Element {
+			constructor() {
+			  super();
+			  this.encoder = new EscPosEncoder();
+			}
+		
+		  static get is() { return 'bluetooth-printer'; }
+		
+		  // Declare properties for the element's public API
+		  static get properties() {
+		    return {
+		    }
+		  }
+		  /**
+		   * This can only be called when hadling an user gesture on the client-side. Otherwise it will cause a
+		   * SecurityError
+		   */
+		  connect() {
+			  BluetoothPrinterAPI.connect()
+				.then(() => {
+					window.alert('Ready to print!');
+					console.log('connected');
+
+					BluetoothPrinterAPI.addEventListener('disconnected', () => {
+						console.log('disconnected');
+					});
+				}).catch(function(e) {
+					window.alert('Connection failed, please try again!');
+				});
+		  }
+		  print(msg) {
+			  if (!BluetoothPrinterAPI.isConnected()) {
+					window.alert('Printer is not connected!');
+					return;
+				}
+				// normal text: 32 characters per line
+				// small text: 42 characters per line
+				let command = this.encoder
+					.text(msg)
+					.newline()
+					.text('8<------------------------------')
+					.newline()
+					.newline()
+					.newline()
+					.encode()
+				BluetoothPrinterAPI.print(command);
+		  }
+		}
+		
+		customElements.define(BluetoothPrinter.is, BluetoothPrinter);
+	</script>
+</dom-module>
