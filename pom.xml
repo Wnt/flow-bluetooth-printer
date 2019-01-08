@@ -3,12 +3,12 @@
 
     <groupId>org.vaadin.jonni</groupId>
     <artifactId>webbluetooth-printer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>WebBluetooth printer</name>
-    <description>Integration of paper-slider for Vaadin 11</description>
+    <description>WebBluetooth thermal printer demo on Vaadin platform</description>
 
     <properties>
-        <vaadin.version>11.0.0</vaadin.version>
+        <vaadin.version>12.0.3</vaadin.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -16,7 +16,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <organization>
-        <name>Jonni Nakari</name>
+        <name>Jonni Madekivi</name>
     </organization>
     <licenses>
         <license>
@@ -64,14 +64,6 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- The following dependency is generated using webjars.org. If 
-             it does not resolve, go to https://www.webjars.org and deploy it as "Bower GitHub"
-             -->
-        <dependency>
-            <groupId>org.webjars.bowergithub.polymerelements</groupId>
-            <artifactId>paper-slider</artifactId>
-            <version>2.0.7</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -98,13 +90,14 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.3.7.v20160115</version>
+                <version>9.4.11.v20180605</version>
                 <configuration>
                     <scanIntervalSeconds>-1</scanIntervalSeconds>
                     <!-- Use test scope because the UI/demo classes are in 
                         the test package. -->
                     <useTestScope>true</useTestScope>
-                     <webApp>
+                    <supportedPackagings><supportedPackaging>jar</supportedPackaging></supportedPackagings>
+                    <webApp>
 			            <resourceBases>
 			                <baseResource>src/main/resources/META-INF/resources</baseResource>
 			            </resourceBases>
